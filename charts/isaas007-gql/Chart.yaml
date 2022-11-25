@@ -1,6 +1,6 @@
 apiVersion: v2
-name: isaas007-gql-service
-description: A Helm chart for Kubernetes isaas007 gql service deployed behind a traefik ingress
+name: isaas007-gql
+description: A Helm chart for Kubernetes isaas007 gql deployed behind a traefik ingress
 
 # A chart can be either an 'application' or a 'library' chart.
 #

@@ -1,0 +1,35 @@
+{{ if and .Values.storage .Values.storage.backupCron }}
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: "{{ include ".helm.fullname" . }}-backup"
+spec:
+  schedule: "0 * * * *"
+  successfulJobsHistoryLimit: 1
+  failedJobsHistoryLimit: 5
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: "{{ .Release.Name }}-pod"
+            image: ubuntu:latest
+            imagePullPolicy: IfNotPresent
+            command:
+            - /bin/sh
+            - -c
+            - apt update && apt upgrade && apt install -y curl postgresql-client && curl {{ .Values.storage.scriptPath }} > /data/dumpdb.sh && chmod +x /data/dumpdb.sh && /data/dumpdb.sh
+            envFrom:
+            - secretRef:
+                name: "{{ include ".helm.fullname" . }}-secret"
+            - configMapRef:
+                name: "{{ .Release.Name }}-configmap"
+            volumeMounts:
+            - name: postgres-vol
+              mountPath: /data
+          restartPolicy: OnFailure
+          volumes:
+            - name: postgres-vol
+              persistentVolumeClaim:
+                claimName: "{{ include ".helm.fullname" . }}-claim"
+{{ end }}

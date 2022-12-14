@@ -34,19 +34,3 @@ dependencies:
 - name: traefik
   version: "10.24.2"
   repository: https://helm.traefik.io/traefik
-- name: aws-efs-csi-driver
-  version: "2.2.8"
-  repository: https://kubernetes-sigs.github.io/aws-efs-csi-driver/
-# the login page front end
-- name: microfrontend
-  version: "0.0.5"
-  repository: "https://htaic.github.io/helm-charts"
-# the auth service back end
-- name: faux-auth-service
-  version: "0.0.10"
-  repository: "https://htaic.github.io/helm-charts"
-  # repository: "file://../faux-auth-service"
-# send logs out to open search
-- name: filebeat
-  version: "7.12.1"
-  repository: https://helm.elastic.co
